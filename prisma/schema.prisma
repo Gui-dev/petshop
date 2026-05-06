@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Appointment {
+  id          String   @id @default(cuid())
+  tutorName   String   @map("tutor_name")
+  petName     String   @map("pet_name")
+  phone       String   @map("phone")
+  description String
+  scheduleAt  DateTime @map("schedule_at")
+
+  @@map("appointments")
+}
