@@ -13,7 +13,7 @@ model Appointment {
   petName     String   @map("pet_name")
   phone       String   @map("phone")
   description String
-  scheduleAt  DateTime @map("schedule_at")
+  scheduledAt DateTime @map("scheduled_at")
 
   @@map("appointments")
 }
