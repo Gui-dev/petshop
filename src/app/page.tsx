@@ -1,3 +1,4 @@
+import { AppointmentForm } from '@/components/appointment-form'
 import { PeriodSection } from '@/components/period-section'
 import { getAppointmentsByPeriod } from '@/utils/get-appointments-by-period'
 
@@ -55,6 +56,10 @@ export default function Home() {
         {periods.map(period => {
           return <PeriodSection key={period.type} period={period} />
         })}
+      </div>
+
+      <div className="fixed right-0 bottom-0 left-0 flex justify-center bg-zinc-800 px-6 py-5 md:top-auto md:right-6 md:bottom-6 md:left-auto md:w-auto md:bg-transparent md:p-0">
+        <AppointmentForm />
       </div>
     </div>
   )
