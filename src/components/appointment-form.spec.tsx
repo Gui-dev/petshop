@@ -1,7 +1,7 @@
-import { render, screen, waitFor, fireEvent } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { AppointmentForm } from './appointment-form'
 import * as action from '@/app/(home)/action'
+import { AppointmentForm } from './appointment-form'
 
 vi.mock('@/app/(home)/action', () => ({
   createAppointment: vi.fn(),
@@ -135,7 +135,7 @@ describe('<AppointmentForm />', () => {
 
   it('should show loading state when submitting', async () => {
     vi.mocked(action.createAppointment).mockImplementation(
-      () => new Promise(resolve => setTimeout(resolve, 100)),
+      () => new Promise(resolve => setTimeout(resolve, 100))
     )
 
     const user = userEvent.setup()

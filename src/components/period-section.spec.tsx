@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react'
+import type { AppointmentFullProps, AppointmentProps } from '@/types/appointment'
 import { PeriodSection } from './period-section'
-import type { AppointmentFullProps } from '@/types/appointment'
-import type { AppointmentProps } from '@/types/appointment'
 
 vi.mock('./appointment-card', () => ({
   AppointmentCard: ({ appointment }: { appointment: AppointmentProps }) => (
@@ -28,12 +27,11 @@ describe('<PeriodSection />', () => {
 
   const createPeriod = (
     type: 'morning' | 'afternoon' | 'evening',
-    appointments: AppointmentProps[] = [],
+    appointments: AppointmentProps[] = []
   ): AppointmentFullProps => ({
     type,
     title: type === 'morning' ? 'Manhã' : type === 'afternoon' ? 'Tarde' : 'Noite',
-    timeRange:
-      type === 'morning' ? '09h - 12h' : type === 'afternoon' ? '13h - 18h' : '19h - 21h',
+    timeRange: type === 'morning' ? '09h - 12h' : type === 'afternoon' ? '13h - 18h' : '19h - 21h',
     appointments,
   })
 

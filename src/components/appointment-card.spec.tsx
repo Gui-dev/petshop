@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
-import { AppointmentCard } from './appointment-card'
 import type { AppointmentProps } from '@/types/appointment'
+import { AppointmentCard } from './appointment-card'
 
 describe('<AppointmentCard />', () => {
   const mockAppointment: AppointmentProps = {
