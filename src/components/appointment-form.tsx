@@ -6,6 +6,7 @@ import { Calendar, Calendar1, ChevronDown, Clock, Dog, Loader, Phone, User } fro
 import { Controller, useForm } from 'react-hook-form'
 import { IMaskInput } from 'react-imask'
 import { toast } from 'sonner'
+import { createAppointment } from '@/app/(home)/action'
 import {
   appointmentFormSchema,
   type IAppointmentFormSchema,
@@ -44,11 +45,16 @@ export const AppointmentForm = () => {
     },
   })
 
-  const handleSubmitAppointment = (data: IAppointmentFormSchema) => {
+  const handleSubmitAppointment = async (data: IAppointmentFormSchema) => {
     const [hour, minute] = data.time.split(':')
-    const scheduledDate = new Date(data.scheduledAt).setHours(Number(hour), Number(minute), 0, 0)
+    const scheduledAt = new Date(data.scheduledAt)
+    scheduledAt.setHours(Number(hour), Number(minute), 0, 0)
+
+    await createAppointment({
+      ...data,
+      scheduledAt,
+    })
     toast.success('Agendamento realizado com sucesso!')
-    console.log(scheduledDate)
   }
 
   return (
