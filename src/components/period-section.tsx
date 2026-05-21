@@ -23,12 +23,14 @@ export const PeriodSection = ({ period }: IPeriodSectionProps) => {
         <span className="font-semibold text-2xl text-zinc-400">{period.timeRange}</span>
       </div>
 
-      {period.appointments.length > 0 && (
+      {period.appointments.length > 0 ? (
         <div className="px-5">
           {period.appointments.map(appointment => {
             return <AppointmentCard key={appointment.id} appointment={appointment} />
           })}
         </div>
+      ) : (
+        <p className="p-5 text-sm text-zinc-400">Nenhum agendamento para este periodo.</p>
       )}
 
       {period.appointments.length === 0 && <div>Nada ainda.</div>}

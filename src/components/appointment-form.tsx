@@ -30,8 +30,9 @@ import { Textarea } from './ui/textarea'
 export const AppointmentForm = () => {
   const {
     control,
-    register,
     handleSubmit,
+    register,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<IAppointmentFormSchema>({
     resolver: standardSchemaResolver(appointmentFormSchema),
@@ -50,11 +51,19 @@ export const AppointmentForm = () => {
     const scheduledAt = new Date(data.scheduledAt)
     scheduledAt.setHours(Number(hour), Number(minute), 0, 0)
 
-    await createAppointment({
+    const result = await createAppointment({
       ...data,
       scheduledAt,
     })
+
+    if (result?.error) {
+      toast.error(result.error)
+      return
+    }
+
     toast.success('Agendamento realizado com sucesso!')
+
+    reset()
   }
 
   return (
