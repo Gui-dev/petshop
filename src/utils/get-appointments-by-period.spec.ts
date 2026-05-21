@@ -14,11 +14,7 @@ describe('getAppointmentsByPeriod', () => {
   })
 
   it('should group appointments by period correctly', () => {
-    const appointments = [
-      createAppointment(9),
-      createAppointment(14),
-      createAppointment(20),
-    ]
+    const appointments = [createAppointment(9), createAppointment(14), createAppointment(20)]
 
     const result = getAppointmentsByPeriod(appointments)
 
