@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const createAppointmentSchema = z.object({
+export const appointmentSchema = z.object({
   tutorName: z.string(),
   petName: z.string(),
   phone: z.string(),
@@ -8,4 +8,4 @@ export const createAppointmentSchema = z.object({
   scheduledAt: z.date(),
 })
 
-export type ICreateAppointmentSchema = z.infer<typeof createAppointmentSchema>
+export type IAppointmentSchema = z.infer<typeof appointmentSchema>

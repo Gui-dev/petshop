@@ -8,7 +8,6 @@ export type AppointmentProps = {
   description: string
   time: string
   period: PeriodType
-  service: string
   scheduledAt: Date
 }
 

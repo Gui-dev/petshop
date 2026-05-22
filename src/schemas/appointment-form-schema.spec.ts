@@ -59,6 +59,17 @@ describe('appointmentFormSchema', () => {
     }
   })
 
+  it('should fail when scheduledAt is undefined', () => {
+    const result = appointmentFormSchema.safeParse({
+      ...validData,
+      scheduledAt: undefined,
+    })
+    expect(result.success).toBe(false)
+    if (!result.success) {
+      expect(result.error.issues[0].path).toContain('scheduledAt')
+    }
+  })
+
   it('should fail when scheduledAt is in the past', () => {
     const result = appointmentFormSchema.safeParse({
       ...validData,
