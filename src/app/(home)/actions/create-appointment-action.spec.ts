@@ -1,6 +1,6 @@
 import { prisma } from '@/services/prisma'
 import * as getPeriodModule from '@/utils/get-period'
-import { createAppointment, getAppointments } from './action'
+import { createAppointment, getAppointments } from './actions/action'
 
 vi.mock('@/services/prisma', () => ({
   prisma: {

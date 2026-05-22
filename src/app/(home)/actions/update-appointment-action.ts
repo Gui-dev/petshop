@@ -1,16 +1,18 @@
 'use server'
 
-import {
-  createAppointmentSchema,
-  type ICreateAppointmentSchema,
-} from '@/schemas/create-appointment-schema'
+import { revalidatePath } from 'next/cache'
+import { appointmentSchema, type IAppointmentSchema } from '@/schemas/appointment-schema'
 import { prisma } from '@/services/prisma'
-import { getAppointmentsByPeriod } from '@/utils/get-appointments-by-period'
 import { getPeriod } from '@/utils/get-period'
 
-export const createAppointment = async (data: ICreateAppointmentSchema) => {
+interface IUpdateAppointmentProps {
+  id: string
+  data: IAppointmentSchema
+}
+
+export const updateAppointmentAction = async ({ id, data }: IUpdateAppointmentProps) => {
   try {
-    const parsedData = createAppointmentSchema.parse(data)
+    const parsedData = appointmentSchema.parse(data)
     const { scheduledAt } = parsedData
 
     const hour = scheduledAt.getHours()
@@ -25,6 +27,9 @@ export const createAppointment = async (data: ICreateAppointmentSchema) => {
     const existsingAppointments = await prisma.appointment.findFirst({
       where: {
         scheduledAt,
+        id: {
+          not: id,
+        },
       },
     })
 
@@ -34,21 +39,17 @@ export const createAppointment = async (data: ICreateAppointmentSchema) => {
       }
     }
 
-    await prisma.appointment.create({
+    await prisma.appointment.update({
+      where: {
+        id,
+      },
       data: {
         ...parsedData,
       },
     })
-  } catch (_error) {}
-  console.log(data)
-}
 
-export const getAppointments = async () => {
-  const appointments = await prisma.appointment.findMany({
-    orderBy: {
-      scheduledAt: 'asc',
-    },
-  })
-
-  return getAppointmentsByPeriod(appointments)
+    revalidatePath('/')
+  } catch (error) {
+    console.error(error)
+  }
 }
