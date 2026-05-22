@@ -1,4 +1,6 @@
+import { Pen } from 'lucide-react'
 import type { AppointmentProps } from '@/types/appointment'
+import { AppointmentForm } from './appointment-form'
 
 interface IAppointmentCardProps {
   appointment: AppointmentProps
@@ -20,6 +22,12 @@ export const AppointmentCard = ({ appointment }: IAppointmentCardProps) => {
       </div>
       <div className="col-span-2 mt-1 hidden gap-2 pr-4 text-left md:col-span-1 md:mt-0 md:block">
         <span className="text-sm text-zinc-400">{appointment.description}</span>
+      </div>
+
+      <div className="col-span-2 mt-2 flex items-center justify-end gap-2 text-right md:col-span-1 md:mt-0">
+        <AppointmentForm appointemnt={appointment}>
+          <Pen className="size-4 font-bold text-yellow-300" />
+        </AppointmentForm>
       </div>
     </div>
   )

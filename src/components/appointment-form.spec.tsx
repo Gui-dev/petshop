@@ -1,10 +1,13 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import * as action from '@/app/(home)/action'
 import { AppointmentForm } from './appointment-form'
 
-vi.mock('@/app/(home)/action', () => ({
+vi.mock('@/app/(home)/actions/create-appointment-action', () => ({
   createAppointment: vi.fn(),
+}))
+
+vi.mock('@/app/(home)/actions/update-appointment-action', () => ({
+  updateAppointmentAction: vi.fn(),
 }))
 
 vi.mock('sonner', () => ({
@@ -72,6 +75,7 @@ vi.mock('./ui/button', () => ({
       {children}
     </button>
   ),
+  buttonVariants: () => 'mocked-class',
 }))
 
 vi.mock('react-imask', () => ({
@@ -106,10 +110,9 @@ describe('<AppointmentForm />', () => {
     vi.clearAllMocks()
   })
 
-  it('should render the trigger button with "Agendar" text', () => {
+  it('should render the submit button with "Agendar" text', () => {
     render(<AppointmentForm />)
-    const buttons = screen.getAllByText('Agendar')
-    expect(buttons.length).toBeGreaterThanOrEqual(1)
+    expect(screen.getByRole('button', { name: /agendar/i })).toBeInTheDocument()
   })
 
   it('should render all form fields', () => {
@@ -124,7 +127,7 @@ describe('<AppointmentForm />', () => {
   it('should show validation errors on empty submit', async () => {
     render(<AppointmentForm />)
 
-    const submitButton = screen.getAllByRole('button', { name: /agendar/i })[1]
+    const submitButton = screen.getByRole('button', { name: /agendar/i })
     fireEvent.click(submitButton)
 
     await waitFor(() => {
@@ -134,7 +137,8 @@ describe('<AppointmentForm />', () => {
   })
 
   it('should show loading state when submitting', async () => {
-    vi.mocked(action.createAppointment).mockImplementation(
+    const { createAppointment } = await import('@/app/(home)/actions/create-appointment-action')
+    vi.mocked(createAppointment).mockImplementation(
       () => new Promise(resolve => setTimeout(resolve, 100))
     )
 
@@ -146,7 +150,7 @@ describe('<AppointmentForm />', () => {
     await user.type(screen.getByPlaceholderText('(99) 99999-9999'), '11999999999')
     await user.type(screen.getByPlaceholderText('Uma breve descrição'), 'Test description')
 
-    const submitButton = screen.getAllByRole('button', { name: /agendar/i })[1]
+    const submitButton = screen.getByRole('button', { name: /agendar/i })
     fireEvent.click(submitButton)
 
     await waitFor(() => {

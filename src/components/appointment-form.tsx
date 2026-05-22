@@ -2,17 +2,21 @@
 
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
 import { format, startOfToday } from 'date-fns'
-import { Calendar, Calendar1, ChevronDown, Clock, Dog, Loader, Phone, User } from 'lucide-react'
+import { Calendar, ChevronDown, Clock, Dog, Loader, Phone, User } from 'lucide-react'
+import { type ReactNode, useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { IMaskInput } from 'react-imask'
 import { toast } from 'sonner'
-import { createAppointment } from '@/app/(home)/action'
+import { createAppointment } from '@/app/(home)/actions/create-appointment-action'
+import { updateAppointmentAction } from '@/app/(home)/actions/update-appointment-action'
+import { cn } from '@/lib/utils'
 import {
   appointmentFormSchema,
   type IAppointmentFormSchema,
 } from '@/schemas/appointment-form-schema'
+import type { AppointmentProps } from '@/types/appointment'
 import { timeOptions } from '@/utils/generate-time-options'
-import { Button } from './ui/button'
+import { Button, buttonVariants } from './ui/button'
 import { Calendar as CalendarComponent } from './ui/calendar'
 import {
   Dialog,
@@ -27,7 +31,13 @@ import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Textarea } from './ui/textarea'
 
-export const AppointmentForm = () => {
+interface IAppointmentFormProps {
+  children: ReactNode
+  appointemnt?: AppointmentProps
+}
+
+export const AppointmentForm = ({ children, appointemnt }: IAppointmentFormProps) => {
+  const [isOpen, setIsOpen] = useState(false)
   const {
     control,
     handleSubmit,
@@ -41,38 +51,61 @@ export const AppointmentForm = () => {
       petName: '',
       phone: '',
       description: '',
-      scheduledAt: new Date(),
+      scheduledAt: undefined,
       time: '',
     },
   })
 
   const handleSubmitAppointment = async (data: IAppointmentFormSchema) => {
     const [hour, minute] = data.time.split(':')
-    const scheduledAt = new Date(data.scheduledAt)
+    const scheduledAt = new Date(data.scheduledAt!)
     scheduledAt.setHours(Number(hour), Number(minute), 0, 0)
 
-    const result = await createAppointment({
-      ...data,
-      scheduledAt,
-    })
+    const isEdit = !!appointemnt?.id
+    let result = null
+
+    if (isEdit) {
+      result = await updateAppointmentAction({
+        id: appointemnt.id,
+        data: {
+          ...data,
+          scheduledAt,
+        },
+      })
+
+      toast.success('Agendamento atualizado com sucesso!')
+    } else {
+      result = await createAppointment({
+        ...data,
+        scheduledAt,
+      })
+      toast.success('Agendamento realizado com sucesso!')
+    }
 
     if (result?.error) {
       toast.error(result.error)
       return
     }
 
-    toast.success('Agendamento realizado com sucesso!')
-
+    setIsOpen(false)
     reset()
   }
 
+  useEffect(() => {
+    if (appointemnt) {
+      reset(appointemnt)
+    }
+  }, [appointemnt, reset])
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button className="flex items-center gap-2 font-bold text-base">
-          <Calendar1 className="size-4 font-bold" />
-          Agendar
-        </Button>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger
+        className={cn(
+          buttonVariants({ variant: appointemnt ? 'secondary' : 'default' }),
+          'flex items-center gap-2 font-bold text-base'
+        )}
+      >
+        {children}
       </DialogTrigger>
       <DialogContent>
         <div className="flex flex-col gap-4">
