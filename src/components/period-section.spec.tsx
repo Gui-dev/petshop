@@ -20,7 +20,6 @@ describe('<PeriodSection />', () => {
       description: 'Banho',
       time: '09:00',
       period: 'morning',
-      service: 'Banho',
       scheduledAt: new Date('2026-05-22T09:00:00'),
     },
   ]
@@ -51,10 +50,11 @@ describe('<PeriodSection />', () => {
     expect(screen.getByText('Krypto')).toBeInTheDocument()
   })
 
-  it('should show empty state when no appointments', () => {
+  it('should show empty state messages when no appointments', () => {
     const period = createPeriod('afternoon', [])
     render(<PeriodSection period={period} />)
 
+    expect(screen.getByText('Nenhum agendamento para este periodo.')).toBeInTheDocument()
     expect(screen.getByText('Nada ainda.')).toBeInTheDocument()
   })
 

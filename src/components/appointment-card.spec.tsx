@@ -2,6 +2,16 @@ import { render, screen } from '@testing-library/react'
 import type { AppointmentProps } from '@/types/appointment'
 import { AppointmentCard } from './appointment-card'
 
+vi.mock('./appointment-form', () => ({
+  AppointmentForm: ({
+    children,
+    appointemnt,
+  }: {
+    children: React.ReactNode
+    appointemnt?: AppointmentProps
+  }) => <div data-testid="appointment-form" data-appointment-id={appointemnt?.id}>{children}</div>,
+}))
+
 describe('<AppointmentCard />', () => {
   const mockAppointment: AppointmentProps = {
     id: '1',
@@ -11,7 +21,6 @@ describe('<AppointmentCard />', () => {
     description: 'Banho e tosa',
     time: '09:00',
     period: 'morning',
-    service: 'Banho',
     scheduledAt: new Date('2026-05-22T09:00:00'),
   }
 
@@ -40,5 +49,13 @@ describe('<AppointmentCard />', () => {
     expect(screen.getByText('Ace')).toBeInTheDocument()
     expect(screen.getByText('Bruce Wayne')).toBeInTheDocument()
     expect(screen.getByText('Consulta veterinária')).toBeInTheDocument()
+  })
+
+  it('should render edit AppointmentForm with Pen icon', () => {
+    render(<AppointmentCard appointment={mockAppointment} />)
+
+    const form = screen.getByTestId('appointment-form')
+    expect(form).toBeInTheDocument()
+    expect(form).toHaveAttribute('data-appointment-id', '1')
   })
 })
