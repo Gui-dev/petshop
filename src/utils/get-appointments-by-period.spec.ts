@@ -47,7 +47,7 @@ describe('getAppointmentsByPeriod', () => {
     const transformed = morning.appointments[0]
 
     expect(transformed.time).toBeDefined()
-    expect(transformed.service).toBe('Banho')
+    expect(transformed.description).toBe('Banho')
     expect(transformed.period).toBe('morning')
     expect(transformed.tutorName).toBe('John Doe')
   })

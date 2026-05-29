@@ -15,8 +15,7 @@ export const updateAppointmentAction = async ({ id, data }: IUpdateAppointmentPr
     const parsedData = appointmentSchema.parse(data)
     const { scheduledAt } = parsedData
 
-    const hour = scheduledAt.getHours()
-    const period = getPeriod(hour)
+    const period = getPeriod(scheduledAt)
 
     if (!period) {
       return {

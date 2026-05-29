@@ -1,6 +1,12 @@
 import { render, screen } from '@testing-library/react'
 import Home from './page'
 
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({ push: vi.fn() }),
+  usePathname: () => '/',
+  useSearchParams: () => new URLSearchParams(),
+}))
+
 vi.mock('./actions/get-appointments-action', () => ({
   getAppointments: vi.fn(),
 }))
@@ -26,7 +32,7 @@ describe('<Home />', () => {
       { type: 'evening', title: 'Noite', timeRange: '19h - 21h', appointments: [] },
     ])
 
-    render(await Home())
+    render(await Home({ searchParams: Promise.resolve({}) }))
 
     expect(screen.getByText('Sua Agenda')).toBeInTheDocument()
     expect(screen.getByText(/clientes e servi.os agendados/i)).toBeInTheDocument()
@@ -40,7 +46,7 @@ describe('<Home />', () => {
       { type: 'evening', title: 'Noite', timeRange: '19h - 21h', appointments: [] },
     ])
 
-    render(await Home())
+    render(await Home({ searchParams: Promise.resolve({}) }))
 
     expect(screen.getByTestId('period-section-morning')).toBeInTheDocument()
     expect(screen.getByTestId('period-section-afternoon')).toBeInTheDocument()
@@ -51,7 +57,7 @@ describe('<Home />', () => {
     const { getAppointments } = await import('./actions/get-appointments-action')
     vi.mocked(getAppointments).mockResolvedValue([])
 
-    render(await Home())
+    render(await Home({ searchParams: Promise.resolve({}) }))
 
     expect(screen.getByTestId('appointment-form')).toBeInTheDocument()
   })

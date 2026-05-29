@@ -3,14 +3,18 @@ import type { AppointmentFullProps, AppointmentProps } from '@/types/appointment
 import { getPeriod } from './get-period'
 
 export const getAppointmentsByPeriod = (appointments: Appointment[]): AppointmentFullProps[] => {
-  const transformedAppointments: AppointmentProps[] = appointments.map(appointment => {
-    return {
-      ...appointment,
+  const transformedAppointments: AppointmentProps[] = appointments
+    .map(appointment => ({
+      id: appointment.id,
+      tutorName: appointment.tutorName,
+      petName: appointment.petName,
+      phone: appointment.phone,
+      description: appointment.description,
+      scheduledAt: appointment.scheduledAt,
       time: appointment.scheduledAt.toLocaleTimeString('pt-BR', {}),
-      service: appointment.description,
-      period: getPeriod(appointment.scheduledAt.getHours()),
-    }
-  })
+      period: getPeriod(appointment.scheduledAt),
+    }))
+    .filter((appointment): appointment is AppointmentProps => appointment.period !== null)
 
   const morningAppointments = transformedAppointments.filter(
     appointment => appointment.period === 'morning'

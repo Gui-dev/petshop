@@ -10,8 +10,7 @@ export const createAppointment = async (data: IAppointmentSchema) => {
     const parsedData = appointmentSchema.parse(data)
     const { scheduledAt } = parsedData
 
-    const hour = scheduledAt.getHours()
-    const period = getPeriod(hour)
+    const period = getPeriod(scheduledAt)
 
     if (!period) {
       return {

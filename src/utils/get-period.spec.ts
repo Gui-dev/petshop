@@ -1,29 +1,36 @@
 import { getPeriod } from './get-period'
 
 describe('getPeriod', () => {
-  it('should return morning for hours 9-11', () => {
-    expect(getPeriod(9)).toBe('morning')
-    expect(getPeriod(10)).toBe('morning')
-    expect(getPeriod(11)).toBe('morning')
+  const createDateInBRT = (hour: number) => {
+    const date = new Date(`2026-05-28T${hour.toString().padStart(2, '0')}:00:00-03:00`)
+    return date
+  }
+
+  it('should return morning for hours 9-12 in BRT', () => {
+    expect(getPeriod(createDateInBRT(9))).toBe('morning')
+    expect(getPeriod(createDateInBRT(10))).toBe('morning')
+    expect(getPeriod(createDateInBRT(11))).toBe('morning')
+    expect(getPeriod(createDateInBRT(12))).toBe('morning')
   })
 
-  it('should return afternoon for hours 13-17', () => {
-    expect(getPeriod(13)).toBe('afternoon')
-    expect(getPeriod(15)).toBe('afternoon')
-    expect(getPeriod(17)).toBe('afternoon')
+  it('should return afternoon for hours 13-18 in BRT', () => {
+    expect(getPeriod(createDateInBRT(13))).toBe('afternoon')
+    expect(getPeriod(createDateInBRT(15))).toBe('afternoon')
+    expect(getPeriod(createDateInBRT(17))).toBe('afternoon')
+    expect(getPeriod(createDateInBRT(18))).toBe('afternoon')
   })
 
-  it('should return evening for hours 19-21', () => {
-    expect(getPeriod(19)).toBe('evening')
-    expect(getPeriod(20)).toBe('evening')
-    expect(getPeriod(21)).toBe('evening')
+  it('should return evening for hours 19-21 in BRT', () => {
+    expect(getPeriod(createDateInBRT(19))).toBe('evening')
+    expect(getPeriod(createDateInBRT(20))).toBe('evening')
+    expect(getPeriod(createDateInBRT(21))).toBe('evening')
   })
 
-  it('should return morning as fallback for hours outside business range', () => {
-    expect(getPeriod(0)).toBe('morning')
-    expect(getPeriod(6)).toBe('morning')
-    expect(getPeriod(12)).toBe('morning')
-    expect(getPeriod(18)).toBe('morning')
-    expect(getPeriod(23)).toBe('morning')
+  it('should return null for hours outside business range', () => {
+    expect(getPeriod(createDateInBRT(0))).toBeNull()
+    expect(getPeriod(createDateInBRT(6))).toBeNull()
+    expect(getPeriod(createDateInBRT(8))).toBeNull()
+    expect(getPeriod(createDateInBRT(22))).toBeNull()
+    expect(getPeriod(createDateInBRT(23))).toBeNull()
   })
 })

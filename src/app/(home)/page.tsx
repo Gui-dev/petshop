@@ -1,14 +1,23 @@
+import { parseISO } from 'date-fns'
 import { Calendar1 } from 'lucide-react'
 import { AppointmentForm } from '@/components/appointment-form'
+import { DatePicker } from '@/components/date-picker'
 import { PeriodSection } from '@/components/period-section'
 import { getAppointments } from './actions/get-appointments-action'
 
-export default async function Home() {
-  const periods = await getAppointments()
+interface IHomeProps {
+  searchParams: Promise<{ date?: string }>
+}
+
+export default async function Home({ searchParams }: IHomeProps) {
+  const { date } = await searchParams
+  const selectedDate = date ? parseISO(date) : new Date()
+
+  const periods = await getAppointments(selectedDate)
 
   return (
     <section className="p-6">
-      <div className="mb-4 flex items-center justify-between md:mb-8">
+      <div className="mb-4 flex flex-col items-center justify-between gap-4 md:mb-8 md:flex-row md:gap-0">
         <div>
           <h1 className="mb-2 font-bold text-zinc-100">Sua Agenda</h1>
           <p className="text-sm text-zinc-300">
@@ -16,7 +25,7 @@ export default async function Home() {
           </p>
         </div>
 
-        <div>DATEPICKER</div>
+        <DatePicker />
       </div>
 
       <div className="pb-24 md:pb-0">

@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@date-fns/tz':
+        specifier: ^1.5.0
+        version: 1.5.0
       '@hookform/resolvers':
         specifier: ^5.2.2
         version: 5.2.2(react-hook-form@7.75.0(react@19.2.4))
@@ -385,8 +388,8 @@ packages:
     resolution: {integrity: sha512-QxULHAm7cNu72w97JUNCBFODFaXpbDg+dP8b/oWFAZ2MTRppA3U00Y2L1HqaS4J6yBqxwa/Y3nMBaxVKbB/NsA==}
     engines: {node: '>=20.19.0'}
 
-  '@date-fns/tz@1.4.1':
-    resolution: {integrity: sha512-P5LUNhtbj6YfI3iJjw5EL9eUAG6OitD0W3fWQcpQjDRc/QIsL0tRNuO1PcDvPccWL1fSTXXdE1ds+l95DV/OFA==}
+  '@date-fns/tz@1.5.0':
+    resolution: {integrity: sha512-lwYN/vDPeNRULcepoE/LO2Pgx+7/RV+S9ARfbc9lr2DtGkOD7pAiruHvbR1RX3Qyf6ja47EWJDMsNK5vK08DJg==}
 
   '@dotenvx/dotenvx@1.64.0':
     resolution: {integrity: sha512-6+xRpZaWuHXEqnhBjae+VmQI9Uaqw5Uzu/ScpO+W7ww9Zp3lHSNBoNjFcUxhrCyc7pRGQzyDjhKzloqrPHERiQ==}
@@ -4255,7 +4258,7 @@ snapshots:
 
   '@csstools/css-tokenizer@4.0.0': {}
 
-  '@date-fns/tz@1.4.1': {}
+  '@date-fns/tz@1.5.0': {}
 
   '@dotenvx/dotenvx@1.64.0':
     dependencies:
@@ -7085,7 +7088,7 @@ snapshots:
 
   react-day-picker@10.0.0(react@19.2.4):
     dependencies:
-      '@date-fns/tz': 1.4.1
+      '@date-fns/tz': 1.5.0
       date-fns: 4.1.0
       react: 19.2.4
 
