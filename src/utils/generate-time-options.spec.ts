@@ -11,8 +11,8 @@ describe('generateTimeOptions', () => {
 
   it('should generate options in 30-minute intervals', () => {
     const totalOptions = timeOptions.length
-    // 12 hours (9-20) * 2 intervals per hour = 24
-    expect(totalOptions).toBe(24)
+    // 12 hours (9-20) * 2 intervals per hour - 2 removed (12:30, 18:30) = 22
+    expect(totalOptions).toBe(22)
   })
 
   it('should have correct label and value format for each option', () => {
