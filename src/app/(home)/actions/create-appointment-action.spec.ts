@@ -1,12 +1,11 @@
 import { prisma } from '@/services/prisma'
 import * as getPeriodModule from '@/utils/get-period'
-import { createAppointment, getAppointments } from './actions/action'
+import { createAppointment } from './create-appointment-action'
 
 vi.mock('@/services/prisma', () => ({
   prisma: {
     appointment: {
       findFirst: vi.fn(),
-      findMany: vi.fn(),
       create: vi.fn(),
     },
   },
@@ -66,32 +65,6 @@ describe('Server Actions', () => {
         error: 'Agendamentos só podem ser feitos entre 9h e 21h',
       })
       expect(prisma.appointment.findFirst).not.toHaveBeenCalled()
-    })
-  })
-
-  describe('getAppointments', () => {
-    it('should return appointments grouped by period', async () => {
-      const mockAppointments = [
-        {
-          id: '1',
-          tutorName: 'John',
-          petName: 'Rex',
-          phone: '11999999999',
-          description: 'Banho',
-          scheduledAt: new Date('2026-05-22T10:00:00'),
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-      ]
-
-      vi.mocked(prisma.appointment.findMany).mockResolvedValue(mockAppointments)
-
-      const result = await getAppointments()
-
-      expect(prisma.appointment.findMany).toHaveBeenCalledWith({
-        orderBy: { scheduledAt: 'asc' },
-      })
-      expect(result).toHaveLength(3)
     })
   })
 })

@@ -1,6 +1,6 @@
-import { createAppointmentSchema } from './create-appointment-schema'
+import { appointmentSchema } from './appointment-schema'
 
-describe('createAppointmentSchema', () => {
+describe('appointmentSchema', () => {
   const validData = {
     tutorName: 'John Doe',
     petName: 'Rex',
@@ -10,12 +10,12 @@ describe('createAppointmentSchema', () => {
   }
 
   it('should pass with valid data', () => {
-    const result = createAppointmentSchema.safeParse(validData)
+    const result = appointmentSchema.safeParse(validData)
     expect(result.success).toBe(true)
   })
 
   it('should fail when required fields are missing', () => {
-    const result = createAppointmentSchema.safeParse({})
+    const result = appointmentSchema.safeParse({})
     expect(result.success).toBe(false)
     if (!result.success) {
       const paths = result.error.issues.map(issue => issue.path[0])
@@ -28,7 +28,7 @@ describe('createAppointmentSchema', () => {
   })
 
   it('should fail when scheduledAt is not a date', () => {
-    const result = createAppointmentSchema.safeParse({
+    const result = appointmentSchema.safeParse({
       ...validData,
       scheduledAt: 'not-a-date',
     })

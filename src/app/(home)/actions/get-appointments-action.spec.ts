@@ -33,12 +33,18 @@ describe('getAppointments', () => {
     vi.clearAllMocks()
   })
 
-  it('should fetch appointments ordered by scheduledAt ascending', async () => {
+  it('should fetch appointments for the given date ordered by scheduledAt ascending', async () => {
     vi.mocked(prisma.appointment.findMany).mockResolvedValue([mockAppointment])
 
-    await getAppointments()
+    await getAppointments(new Date('2026-05-22'))
 
     expect(prisma.appointment.findMany).toHaveBeenCalledWith({
+      where: {
+        scheduledAt: {
+          gte: expect.any(Date),
+          lte: expect.any(Date),
+        },
+      },
       orderBy: { scheduledAt: 'asc' },
     })
   })
@@ -48,7 +54,7 @@ describe('getAppointments', () => {
     vi.mocked(getAppointmentsByPeriod).mockReturnValue(groupedResult)
     vi.mocked(prisma.appointment.findMany).mockResolvedValue([mockAppointment])
 
-    const result = await getAppointments()
+    const result = await getAppointments(new Date('2026-05-22'))
 
     expect(getAppointmentsByPeriod).toHaveBeenCalledWith([mockAppointment])
     expect(result).toEqual(groupedResult)
@@ -59,7 +65,7 @@ describe('getAppointments', () => {
     vi.mocked(getAppointmentsByPeriod).mockReturnValue(groupedResult)
     vi.mocked(prisma.appointment.findMany).mockResolvedValue([])
 
-    const result = await getAppointments()
+    const result = await getAppointments(new Date('2026-05-22'))
 
     expect(getAppointmentsByPeriod).toHaveBeenCalledWith([])
     expect(result).toEqual(groupedResult)
