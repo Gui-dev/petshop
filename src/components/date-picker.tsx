@@ -60,7 +60,7 @@ export const DatePicker = () => {
 
   return (
     <div className="flex items-center justify-center gap-1">
-      <Button variant="ghost" onClick={() => handleNavigateDays(-1)}>
+      <Button variant="ghost" onClick={() => handleNavigateDays(-1)} title="Dia anterior">
         <ChevronLeft className="size-4" />
       </Button>
       <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -86,7 +86,7 @@ export const DatePicker = () => {
           />
         </PopoverContent>
       </Popover>
-      <Button variant="ghost" onClick={() => handleNavigateDays(1)}>
+      <Button variant="ghost" onClick={() => handleNavigateDays(1)} title="Próximo dia">
         <ChevronRight className="size-4" />
       </Button>
     </div>
