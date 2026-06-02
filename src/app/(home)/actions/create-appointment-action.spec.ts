@@ -62,7 +62,7 @@ describe('Server Actions', () => {
       const result = await createAppointment(validData)
 
       expect(result).toEqual({
-        error: 'Agendamentos só podem ser feitos entre 9h e 21h',
+        error: 'Agendamentos só podem ser feitos entre 9h-12h, 13h-18h e 19h-21h',
       })
       expect(prisma.appointment.findFirst).not.toHaveBeenCalled()
     })
