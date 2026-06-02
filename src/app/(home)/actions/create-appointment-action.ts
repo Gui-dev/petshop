@@ -14,7 +14,7 @@ export const createAppointment = async (data: IAppointmentSchema) => {
 
     if (!period) {
       return {
-        error: 'Agendamentos só podem ser feitos entre 9h e 21h',
+        error: 'Agendamentos só podem ser feitos entre 9h-12h, 13h-18h e 19h-21h',
       }
     }
 
