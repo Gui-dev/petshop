@@ -1,36 +1,138 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+  <h1 align="center">Pets Dev</h1>
+  <p align="center">A pet care appointment scheduler built with Next.js</p>
+
+  <p align="center">
+    <img src="https://img.shields.io/badge/Next.js-16-black?logo=next.js" alt="Next.js 16" />
+    <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react" alt="React 19" />
+    <img src="https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss" alt="Tailwind CSS 4" />
+    <img src="https://img.shields.io/badge/Prisma-2D3748?logo=prisma" alt="Prisma" />
+    <img src="https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql" alt="PostgreSQL" />
+    <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript" alt="TypeScript" />
+  </p>
+</div>
+
+## About
+
+Pets Dev is a full-stack web application for managing pet care appointments. It allows pet clinics or groomers to view, create, edit, and delete appointments grouped by morning, afternoon, and evening periods.
+
+## Features
+
+- **📅 Date-based filtering** — Browse appointments for any date using the date picker
+- **⏰ Period grouping** — Appointments organised into morning (09h–12h), afternoon (13h–18h), and evening (19h–21h) slots
+- **➕ Create appointments** — Book new appointments with tutor name, pet name, phone, description, and scheduled time
+- **✏️ Edit appointments** — Update existing appointment details
+- **🗑️ Delete appointments** — Remove appointments with a confirmation dialog
+- **✅ Form validation** — Client and server-side validation via Zod schemas
+- **🌙 Dark mode** — Dark theme out of the box
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | [Next.js 16](https://nextjs.org/) (App Router) |
+| UI Library | [React 19](https://react.dev/) |
+| Styling | [Tailwind CSS 4](https://tailwindcss.com/) |
+| Components | [shadcn/ui](https://ui.shadcn.com/) |
+| Icons | [Lucide React](https://lucide.dev/) |
+| Database | [PostgreSQL](https://www.postgresql.org/) |
+| ORM | [Prisma](https://www.prisma.io/) |
+| Validation | [Zod](https://zod.dev/) |
+| Forms | [React Hook Form](https://react-hook-form.com/) |
+| Dates | [date-fns](https://date-fns.org/) |
+| Linter | [Biome](https://biomejs.dev/) |
+| Tests | [Vitest](https://vitest.dev/) + [Testing Library](https://testing-library.com/) |
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js >= 22
+- pnpm
+- PostgreSQL (or Docker)
+
+### Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# Clone the repository
+git clone https://github.com/your-username/pet-dev.git
+cd pet-dev
+
+# Install dependencies
+pnpm install
+
+# Copy environment variables
+cp .env.example .env
+# Edit .env with your PostgreSQL connection string
+
+# Start PostgreSQL with Docker (optional)
+docker compose up -d
+
+# Run database migrations
+pnpm db:migrate
+
+# Seed the database (optional)
+pnpm db:seed
+
+# Start the development server
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/pet-dev"
+```
 
-## Learn More
+## Available Scripts
 
-To learn more about Next.js, take a look at the following resources:
+| Script | Description |
+|--------|-------------|
+| `pnpm dev` | Start development server |
+| `pnpm build` | Build for production (runs Prisma generate + migrate + Next.js build) |
+| `pnpm start` | Start production server |
+| `pnpm lint` | Run Biome checks |
+| `pnpm format` | Format code with Biome |
+| `pnpm test` | Run Vitest tests |
+| `pnpm test:coverage` | Run tests with coverage report |
+| `pnpm db:migrate` | Run Prisma migrations |
+| `pnpm db:studio` | Open Prisma Studio |
+| `pnpm db:seed` | Seed the database |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+├── app/(home)/              # Home page (route group)
+│   ├── actions/             # Server actions (CRUD)
+│   └── page.tsx
+├── components/              # UI components
+│   ├── ui/                  # shadcn/ui primitives
+│   ├── header.tsx
+│   ├── appointment-card.tsx
+│   ├── appointment-form.tsx
+│   ├── date-picker.tsx
+│   └── period-section.tsx
+├── lib/                     # Shared utilities
+├── schemas/                 # Zod validation schemas
+├── services/                # Database services
+├── types/                   # TypeScript types
+└── utils/                   # Helper functions
+```
 
-## Deploy on Vercel
+## Screenshots
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+<!-- TODO: Add screenshots of the application -->
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| | |
+|:---:|:---:|
+| **Home Page** | **Create Appointment** |
+| ![Home](.screens/home.png) | ![Create appointment](.screens/create.png) |
+| **Edit Appointment** | **Delete Confirmation** |
+| ![Edit appointment](screenshots/edit.png) | ![Delete appointment](.screens/delete.png) |
+
+## License
+
+[MIT](LICENSE)
