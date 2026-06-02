@@ -131,7 +131,7 @@ src/
 | **Home Page** | **Create Appointment** |
 | ![Home](.screens/home.png) | ![Create appointment](.screens/create.png) |
 | **Edit Appointment** | **Delete Confirmation** |
-| ![Edit appointment](screenshots/edit.png) | ![Delete appointment](.screens/delete.png) |
+| ![Edit appointment](.screens/edit.png) | ![Delete appointment](.screens/delete.png) |
 
 ## License
 
