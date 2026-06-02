@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { Header } from '@/components/header'
 import { Toaster } from '@/components/ui/sonner'
 import { cn } from '@/lib/utils'
 
@@ -19,8 +20,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn('h-full', 'antialiased', 'dark', 'font-sans', inter.variable)}>
       <body className="flex min-h-full flex-col">
-        {children}
-        <Toaster position="top-right" theme="dark" />
+        <Header />
+        <div className="mx-auto md:max-w-4xl">
+          <main className="mt-12 flex flex-1 flex-col">
+            {children}
+            <Toaster position="top-right" theme="dark" />
+          </main>
+        </div>
       </body>
     </html>
   )
